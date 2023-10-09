@@ -12,17 +12,20 @@ const LoginPage = () => {
   const emailInputRef=useRef();
   const passwordInputRef=useRef();
 
-const authCtx=useContext(AuthContext);
+const authCtx=useContext(AuthContext); //
+const isLoggedIn=authCtx.isLoggedIn;
 const submitHandler=(event)=>{
 event.preventDefault();
 const enteredEmail=emailInputRef.current.value;
 const enteredPassword=passwordInputRef.current.value;
 signInWithEmailAndPassword(auth,enteredEmail,enteredPassword).then((response)=>{
   
-  authCtx.login(response.idToken);
   // console.log(authCtx.login(response.idToken));
-navigate('/Profile');
-// console.log(response);
+  // const idToken=response.idToken;
+  authCtx.login(response._tokenResponse.idToken);
+  
+  console.log((response._tokenResponse.idToken));
+  navigate('/Profile');
 }).catch((error)=>{
   setError(error.message);
   emailInputRef.current.value='';
